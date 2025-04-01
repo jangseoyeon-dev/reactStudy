@@ -23,23 +23,61 @@ const choice = {
     name: "scissors",
     img: "./scissors.png",
   },
-  default: {
-    name: "default",
-    img: "./default.png",
-  },
+};
+
+const defaultChoice = {
+  name: "default",
+  img: "./default.png",
 };
 
 function App() {
-  const [userSlected, setUserSelected] = useState(choice.default);
+  const [userSlected, setUserSelected] = useState(defaultChoice);
+  const [computerSelected, setComputerSelected] = useState(defaultChoice);
+
+  const [userResult, setUserResult] = useState("");
+  const [computerResult, setComputerResult] = useState("");
+
+  const judgement = (userChoice, computerChoice) => {
+    if (userChoice === computerChoice) {
+      return "tie";
+    } else if (userChoice === "rock")
+      return computerChoice === "scissors" ? "win" : "lose";
+    else if (userChoice === "paper")
+      return computerChoice === "rock" ? "win" : "lose";
+    else if (userChoice === "scissors")
+      return computerChoice === "paper" ? "win" : "lose";
+  };
+
+  const randomChoice = () => {
+    const computerChoice = Object.keys(choice);
+    const computerChoiceIndex = Math.floor(
+      Math.random() * computerChoice.length
+    );
+    return choice[computerChoice[computerChoiceIndex]];
+  };
+
   const play = (userChoice) => {
     setUserSelected(choice[userChoice]);
+    const computerChoice = randomChoice();
+    setComputerSelected(computerChoice);
+
+    // 컴퓨터 입장에서 결과 도출하기
+    const userResult = judgement(choice[userChoice].name, computerChoice.name);
+    setComputerResult(
+      userResult === "tie" ? "tie" : userResult === "win" ? "lose" : "win"
+    );
+    setUserResult(userResult);
   };
 
   return (
     <>
       <div className="main">
-        <Box title="you" choice={userSlected} />
-        {/* <Box title="computer" /> */}
+        <Box title="you" choice={userSlected} result={userResult} />
+        <Box
+          title="computer"
+          choice={computerSelected}
+          result={computerResult}
+        />
       </div>
       <div className="main">
         <Button name="rock" onClick={() => play("rock")} />

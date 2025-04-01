@@ -3,7 +3,15 @@ import styles from "./Box.module.css";
 
 const Box = (props) => {
   return (
-    <div className={styles.box}>
+    <div
+      className={`${styles.box}  ${
+        props.result === "win"
+          ? styles.win
+          : props.result === "lose"
+          ? styles.lose
+          : styles.tie
+      }`}
+    >
       <h1 className={styles.title}>{props.title}</h1>
       <img
         className={styles.img}
@@ -12,6 +20,7 @@ const Box = (props) => {
         width={"300px"}
         height={"300px"}
       />
+      <h1 className={styles.result}>{props.result}</h1>
     </div>
   );
 };
