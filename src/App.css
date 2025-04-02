@@ -1,5 +1,22 @@
 .main {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin-top: 50px;
+  align-items: center;
+  height: 100vh;
+}
+.boxes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.score {
+  font-size: 30px;
+  font-weight: bold;
 }

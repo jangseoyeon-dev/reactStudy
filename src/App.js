@@ -1,6 +1,6 @@
 import "./App.css";
 import Box from "./components/Box";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./components/Button";
 // 1. 박스 2개(타이틀, 사진, 결과)
 // 2. 가위, 바위, 보 버튼이 있다
@@ -37,6 +37,9 @@ function App() {
   const [userResult, setUserResult] = useState("");
   const [computerResult, setComputerResult] = useState("");
 
+  const [userScore, setUserScore] = useState(0);
+  const [computerScore, setComputerScore] = useState(0);
+
   const judgement = (userChoice, computerChoice) => {
     if (userChoice === computerChoice) {
       return "tie";
@@ -69,22 +72,36 @@ function App() {
     setUserResult(userResult);
   };
 
+  useEffect(() => {
+    if (userResult === "win") {
+      setUserScore((userScore) => userScore + 1);
+    } else if (userResult === "lose") {
+      setComputerScore((computerScore) => computerScore + 1);
+    }
+  }, [userResult]);
+
   return (
-    <>
-      <div className="main">
-        <Box title="you" choice={userSlected} result={userResult} />
+    <div className="main">
+      <div className="boxes">
+        <Box
+          title="you"
+          choice={userSlected}
+          result={userResult}
+          score={userScore}
+        />
         <Box
           title="computer"
           choice={computerSelected}
           result={computerResult}
+          score={computerScore}
         />
       </div>
-      <div className="main">
+      <div className="buttons">
         <Button name="rock" onClick={() => play("rock")} />
         <Button name="paper" onClick={() => play("paper")} />
         <Button name="scissors" onClick={() => play("scissors")} />
       </div>
-    </>
+    </div>
   );
 }
 
